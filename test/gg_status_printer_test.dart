@@ -22,12 +22,11 @@ void main() {
           test('without carriage return', () async {
             final printer = GgStatusPrinter<String>(
               message: 'Test Operation',
-              operation: Future.value('Success!'),
               printCallback: messages.add,
               useCarriageReturn: false,
             );
 
-            final result = await printer.run();
+            final result = await printer.run(() => Future.value('Success!'));
 
             expect(
               messages,
@@ -42,12 +41,11 @@ void main() {
           test('with carriage return', () async {
             final printer = GgStatusPrinter<String>(
               message: 'Test Operation',
-              operation: Future.value('Success!'),
               printCallback: messages.add,
               useCarriageReturn: true,
             );
 
-            await printer.run();
+            await printer.run(() => Future.value('Success!'));
 
             expect(messages.first, equals('⌛️ Test Operation'));
             expect(
@@ -60,13 +58,12 @@ void main() {
         test('error messages', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            operation: Future<String>.error(Exception('Failure!')),
             printCallback: messages.add,
             useCarriageReturn: false,
           );
 
           await expectLater(
-            printer.run(),
+            printer.run(() => Future<String>.error(Exception('Failure!'))),
             throwsA(
               isA<Exception>().having(
                 (e) => e.toString(),
@@ -84,6 +81,32 @@ void main() {
             ]),
           );
         });
+      });
+    });
+
+    group('set status', () {
+      test('Should print the status', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          printCallback: messages.add,
+          useCarriageReturn: false,
+        );
+
+        printer.status = GgTaskStatus.running;
+        expect(messages, equals(['⌛️ Test Operation']));
+
+        printer.status = GgTaskStatus.success;
+        expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
+
+        printer.status = GgTaskStatus.error;
+        expect(
+          messages,
+          equals([
+            '⌛️ Test Operation',
+            '✅ Test Operation',
+            '❌ Test Operation',
+          ]),
+        );
       });
     });
   });

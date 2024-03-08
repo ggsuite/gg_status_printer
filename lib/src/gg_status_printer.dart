@@ -9,24 +9,26 @@ class GgStatusPrinter<T> {
   /// The constructor
   const GgStatusPrinter({
     required this.message,
-    required this.operation,
     this.useCarriageReturn = true,
     this.printCallback = print,
   });
 
   // ...........................................................................
   /// Run the operation and display the status
-  Future<T> run() async {
+  Future<T> run(Future<T> Function() task) async {
     try {
-      _updateState(_LogState.running);
-      final result = await operation;
-      _updateState(_LogState.success);
+      _updateState(GgTaskStatus.running);
+      final result = await task();
+      _updateState(GgTaskStatus.success);
       return result;
     } catch (e) {
-      _updateState(_LogState.error);
+      _updateState(GgTaskStatus.error);
       rethrow;
     }
   }
+
+  // ...........................................................................
+  set status(GgTaskStatus status) => _updateState(status);
 
   // ...........................................................................
   /// The print callback used. Is print by default
@@ -38,23 +40,20 @@ class GgStatusPrinter<T> {
   /// The message to be displayed
   final String message;
 
-  /// The operation to be executed
-  final Future<T> operation;
-
   // ...........................................................................
   /// Carriage return string
   static const String carriageReturn = '\x1b[1A\x1b[2K';
 
   // ...........................................................................
   /// Log the result of the command
-  void _updateState(_LogState state) {
+  void _updateState(GgTaskStatus state) {
     // On GitHub we have no carriage return.
     // Thus we not logging the icon the first time
     var cr = useCarriageReturn ? carriageReturn : '';
 
     final msg = switch (state) {
-      _LogState.success => '$cr✅ $message',
-      _LogState.error => '$cr❌ $message',
+      GgTaskStatus.success => '$cr✅ $message',
+      GgTaskStatus.error => '$cr❌ $message',
       _ => '⌛️ $message',
     };
 
@@ -64,7 +63,7 @@ class GgStatusPrinter<T> {
 
 // #############################################################################
 /// The state of the log
-enum _LogState {
+enum GgTaskStatus {
   /// The command is running
   running,
 
