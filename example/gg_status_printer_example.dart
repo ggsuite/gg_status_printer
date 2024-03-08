@@ -10,7 +10,7 @@ import 'package:gg_status_printer/gg_status_printer.dart';
 void main() async {
   print('\nPrint all states one the same line');
   // ⌛️✅ Loading data
-  await const GgStatusPrinter<void>(
+  await GgStatusPrinter<void>(
     message: 'Loading data',
     useCarriageReturn: true,
   ).run(() => Future<void>.delayed(const Duration(seconds: 1)));
@@ -18,7 +18,7 @@ void main() async {
   print('\nPrint all states on different lines');
   // ⌛️ Loading data
   // ✅ Loading data
-  await const GgStatusPrinter<void>(
+  await GgStatusPrinter<void>(
     message: 'Loading data',
     useCarriageReturn: false,
   ).run(() => Future<void>.delayed(const Duration(seconds: 1)));
@@ -28,7 +28,7 @@ void main() async {
   // ❌ Loading data
 
   try {
-    await const GgStatusPrinter<void>(
+    await GgStatusPrinter<void>(
       message: 'Loading data',
       useCarriageReturn: false,
     ).run(

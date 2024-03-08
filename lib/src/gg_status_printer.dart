@@ -4,14 +4,16 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_is_github/gg_is_github.dart';
+
 /// A printer for displaying status messages
 class GgStatusPrinter<T> {
   /// The constructor
-  const GgStatusPrinter({
+  GgStatusPrinter({
     required this.message,
-    this.useCarriageReturn = true,
-    this.printCallback = print,
-  });
+    this.log = print,
+    bool? useCarriageReturn,
+  }) : useCarriageReturn = useCarriageReturn ?? isGitHub;
 
   // ...........................................................................
   /// Run the operation and display the status
@@ -29,12 +31,17 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// Run the operation and display the status.
-  Future<bool> runSuccessTask(Future<bool> Function() task) async {
+  Future<T> logTask({
+    required Future<T> Function() task,
+    required bool Function(T) success,
+  }) async {
     try {
       _updateState(GgStatusPrinterStatus.running);
       final result = await task();
       _updateState(
-        result ? GgStatusPrinterStatus.success : GgStatusPrinterStatus.error,
+        success(result)
+            ? GgStatusPrinterStatus.success
+            : GgStatusPrinterStatus.error,
       );
       return result;
     } catch (e) {
@@ -48,7 +55,7 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// The print callback used. Is print by default
-  final void Function(String) printCallback;
+  final void Function(String) log;
 
   /// Replace messages using carriage return
   final bool useCarriageReturn;
@@ -73,7 +80,7 @@ class GgStatusPrinter<T> {
       _ => '⌛️ $message',
     };
 
-    printCallback(msg);
+    log(msg);
   }
 }
 
