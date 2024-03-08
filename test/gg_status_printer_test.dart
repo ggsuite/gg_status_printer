@@ -109,5 +109,71 @@ void main() {
         );
       });
     });
+
+    group('runSuccessTask(...)', () {
+      group('with success', () {
+        test('should print success status', () async {
+          final printer = GgStatusPrinter<String>(
+            message: 'Test Operation',
+            printCallback: messages.add,
+            useCarriageReturn: false,
+          );
+
+          final result = await printer.runSuccessTask(() => Future.value(true));
+          expect(result, isTrue);
+          expect(
+            messages,
+            equals([
+              '⌛️ Test Operation',
+              '✅ Test Operation',
+            ]),
+          );
+        });
+      });
+
+      group('with fail status', () {
+        test('should print fail status', () async {
+          final printer = GgStatusPrinter<String>(
+            message: 'Test Operation',
+            printCallback: messages.add,
+            useCarriageReturn: false,
+          );
+
+          final result =
+              await printer.runSuccessTask(() => Future.value(false));
+          expect(result, isFalse);
+          expect(
+            messages,
+            equals([
+              '⌛️ Test Operation',
+              '❌ Test Operation',
+            ]),
+          );
+        });
+      });
+
+      group('with exception', () {
+        test('should print fail status', () async {
+          final printer = GgStatusPrinter<String>(
+            message: 'Test Operation',
+            printCallback: messages.add,
+            useCarriageReturn: false,
+          );
+
+          await expectLater(
+            printer.runSuccessTask(() => Future.error('error')),
+            throwsA('error'),
+          );
+
+          expect(
+            messages,
+            equals([
+              '⌛️ Test Operation',
+              '❌ Test Operation',
+            ]),
+          );
+        });
+      });
+    });
   });
 }

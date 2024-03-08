@@ -28,6 +28,22 @@ class GgStatusPrinter<T> {
   }
 
   // ...........................................................................
+  /// Run the operation and display the status.
+  Future<bool> runSuccessTask(Future<bool> Function() task) async {
+    try {
+      _updateState(GgStatusPrinterStatus.running);
+      final result = await task();
+      _updateState(
+        result ? GgStatusPrinterStatus.success : GgStatusPrinterStatus.error,
+      );
+      return result;
+    } catch (e) {
+      _updateState(GgStatusPrinterStatus.error);
+      rethrow;
+    }
+  }
+
+  // ...........................................................................
   set status(GgStatusPrinterStatus status) => _updateState(status);
 
   // ...........................................................................
