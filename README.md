@@ -27,19 +27,37 @@ This package streamlines the process of providing real-time, user-friendly feedb
 ## Example Usage
 
 ```dart
-import 'package:promise_notifier/promise_notifier.dart';
+import 'package:gg_status_printer/gg_status_printer.dart';
 
 void main() async {
-  await GgStatusPrinter(
-    message: "Loading data",
-     operation: () async {
-      await Future.delayed(Duration(seconds: 2));
-    },
-  ).perform();
+  print('\nPrint all states one the same line');
+  // ⌛️✅ Loading data
+  await GgStatusPrinter<void>(
+    message: 'Loading data',
+    operation: Future<void>.delayed(const Duration(seconds: 1)),
+    useCarriageReturn: true,
+  ).run();
 
-  // Output:
+  print('\nPrint all states on different lines');
   // ⌛️ Loading data
   // ✅ Loading data
-}
+  await GgStatusPrinter<void>(
+    message: 'Loading data',
+    operation: Future<void>.delayed(const Duration(seconds: 1)),
+    useCarriageReturn: false,
+  ).run();
 
+  print('\nPrint fail states');
+  // ⌛️ Loading data
+  // ❌ Loading data
+
+  try {
+    await GgStatusPrinter<void>(
+      message: 'Loading data',
+      operation: Future<void>.delayed(const Duration(seconds: 1))
+          .then((_) => throw Exception('Failed')),
+      useCarriageReturn: false,
+    ).run();
+  } catch (_) {}
+}
 ```
