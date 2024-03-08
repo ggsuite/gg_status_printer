@@ -13,7 +13,7 @@ class GgStatusPrinter<T> {
     required this.message,
     this.log = print,
     bool? useCarriageReturn,
-  }) : useCarriageReturn = useCarriageReturn ?? isGitHub;
+  }) : useCarriageReturn = useCarriageReturn ?? !isGitHub;
 
   // ...........................................................................
   /// Run the operation and display the status

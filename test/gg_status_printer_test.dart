@@ -27,7 +27,7 @@ void main() {
         group('success messages', () {
           for (final carriageReturn in [null, false]) {
             test('with carriage return = $carriageReturn', () async {
-              testIsGitHub = false;
+              testIsGitHub = true; // No carriage return on GitHub
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
                 log: messages.add,
@@ -49,7 +49,7 @@ void main() {
 
           for (final carriageReturn in [null, true]) {
             test('with carriage return = $carriageReturn', () async {
-              testIsGitHub = true;
+              testIsGitHub = false; // Carriage return on local machine
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
                 log: messages.add,
