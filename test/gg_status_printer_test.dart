@@ -4,13 +4,8 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'dart:io';
-
-import 'package:args/command_runner.dart';
-import 'package:gg_capture_print/gg_capture_print.dart';
 import 'package:gg_status_printer/gg_status_printer.dart';
 import 'package:test/test.dart';
-import 'package:gg_args/gg_args.dart';
 
 void main() {
   final messages = <String>[];
@@ -19,33 +14,76 @@ void main() {
     messages.clear();
   });
 
-  group('GgStatusPrinter()', () {
-    // #########################################################################
-    group('GgStatusPrinter', () {
-      final ggStatusPrinter = GgStatusPrinter(log: (msg) => messages.add(msg));
+  // ...........................................................................
+  group('GgStatusPrinter', () {
+    group('run()', () {
+      group('Should print running and', () {
+        group('success messages', () {
+          test('without carriage return', () async {
+            final printer = GgStatusPrinter<String>(
+              message: 'Test Operation',
+              operation: Future.value('Success!'),
+              printCallback: messages.add,
+              useCarriageReturn: false,
+            );
 
-      final CommandRunner<void> runner = CommandRunner<void>(
-        'ggStatusPrinter',
-        'Description goes here.',
-      )..addCommand(ggStatusPrinter);
+            final result = await printer.run();
 
-      test('should allow to run the code from command line', () async {
-        await capturePrint(
-          log: messages.add,
-          code: () async => await runner
-              .run(['ggStatusPrinter', 'my-command', '--input', 'foo']),
-        );
-        expect(messages, contains('Running my-command with param foo'));
-      });
+            expect(
+              messages,
+              equals([
+                '⌛️ Test Operation',
+                '✅ Test Operation',
+              ]),
+            );
+            expect(result, equals('Success!'));
+          });
 
-      // .......................................................................
-      test('should show all sub commands', () async {
-        final (subCommands, errorMessage) = await missingSubCommands(
-          directory: Directory('lib/src/commands'),
-          command: ggStatusPrinter,
-        );
+          test('with carriage return', () async {
+            final printer = GgStatusPrinter<String>(
+              message: 'Test Operation',
+              operation: Future.value('Success!'),
+              printCallback: messages.add,
+              useCarriageReturn: true,
+            );
 
-        expect(subCommands, isEmpty, reason: errorMessage);
+            await printer.run();
+
+            expect(messages.first, equals('⌛️ Test Operation'));
+            expect(
+              messages.last.startsWith(GgStatusPrinter.carriageReturn),
+              isTrue,
+            );
+          });
+        });
+
+        test('error messages', () async {
+          final printer = GgStatusPrinter<String>(
+            message: 'Test Operation',
+            operation: Future<String>.error(Exception('Failure!')),
+            printCallback: messages.add,
+            useCarriageReturn: false,
+          );
+
+          await expectLater(
+            printer.run(),
+            throwsA(
+              isA<Exception>().having(
+                (e) => e.toString(),
+                'toString',
+                'Exception: Failure!',
+              ),
+            ),
+          );
+
+          expect(
+            messages,
+            equals([
+              '⌛️ Test Operation',
+              '❌ Test Operation',
+            ]),
+          );
+        });
       });
     });
   });

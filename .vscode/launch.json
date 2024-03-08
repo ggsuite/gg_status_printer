@@ -9,7 +9,7 @@
       "name": "gg_status_printer.dart",
       "type": "dart",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/gg_status_printer.dart",
+      "program": "${workspaceFolder}/example/gg_status_printer_example.dart",
       "args": ["--param", "value"],
       "console": "debugConsole"
     },

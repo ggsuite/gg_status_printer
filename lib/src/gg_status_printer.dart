@@ -4,22 +4,73 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import 'package:args/command_runner.dart';
-import './commands/my_command.dart';
-
-/// The command line interface for GgStatusPrinter
-class GgStatusPrinter extends Command<dynamic> {
-  /// Constructor
-  GgStatusPrinter({required this.log}) {
-    addSubcommand(MyCommand(log: log));
-  }
-
-  /// The log function
-  final void Function(String message) log;
+/// A printer for displaying status messages
+class GgStatusPrinter<T> {
+  /// The constructor
+  const GgStatusPrinter({
+    required this.message,
+    required this.operation,
+    this.useCarriageReturn = true,
+    this.printCallback = print,
+  });
 
   // ...........................................................................
-  @override
-  final name = 'ggStatusPrinter';
-  @override
-  final description = 'Add your description here.';
+  /// Run the operation and display the status
+  Future<T> run() async {
+    try {
+      _updateState(_LogState.running);
+      final result = await operation;
+      _updateState(_LogState.success);
+      return result;
+    } catch (e) {
+      _updateState(_LogState.error);
+      rethrow;
+    }
+  }
+
+  // ...........................................................................
+  /// The print callback used. Is print by default
+  final void Function(String) printCallback;
+
+  /// Replace messages using carriage return
+  final bool useCarriageReturn;
+
+  /// The message to be displayed
+  final String message;
+
+  /// The operation to be executed
+  final Future<T> operation;
+
+  // ...........................................................................
+  /// Carriage return string
+  static const String carriageReturn = '\x1b[1A\x1b[2K';
+
+  // ...........................................................................
+  /// Log the result of the command
+  void _updateState(_LogState state) {
+    // On GitHub we have no carriage return.
+    // Thus we not logging the icon the first time
+    var cr = useCarriageReturn ? carriageReturn : '';
+
+    final msg = switch (state) {
+      _LogState.success => '$cr✅ $message',
+      _LogState.error => '$cr❌ $message',
+      _ => '⌛️ $message',
+    };
+
+    printCallback(msg);
+  }
+}
+
+// #############################################################################
+/// The state of the log
+enum _LogState {
+  /// The command is running
+  running,
+
+  /// The command was successful
+  success,
+
+  /// The command failed
+  error,
 }
