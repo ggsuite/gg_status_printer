@@ -1,5 +1,5 @@
 name: gg_status_printer
-description: Prints progress, success, and error messages with Unicode icons ⌛️✅❌ for async operations.
+description: Prints progress, success, and error messages with Unicode icons for async operations.
 version: 1.0.0
 repository: https://github.com/inlavigo/gg_status_printer.git
 
