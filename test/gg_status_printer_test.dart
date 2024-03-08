@@ -92,13 +92,13 @@ void main() {
           useCarriageReturn: false,
         );
 
-        printer.status = GgTaskStatus.running;
+        printer.status = GgStatusPrinterStatus.running;
         expect(messages, equals(['⌛️ Test Operation']));
 
-        printer.status = GgTaskStatus.success;
+        printer.status = GgStatusPrinterStatus.success;
         expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
 
-        printer.status = GgTaskStatus.error;
+        printer.status = GgStatusPrinterStatus.error;
         expect(
           messages,
           equals([

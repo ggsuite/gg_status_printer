@@ -17,18 +17,18 @@ class GgStatusPrinter<T> {
   /// Run the operation and display the status
   Future<T> run(Future<T> Function() task) async {
     try {
-      _updateState(GgTaskStatus.running);
+      _updateState(GgStatusPrinterStatus.running);
       final result = await task();
-      _updateState(GgTaskStatus.success);
+      _updateState(GgStatusPrinterStatus.success);
       return result;
     } catch (e) {
-      _updateState(GgTaskStatus.error);
+      _updateState(GgStatusPrinterStatus.error);
       rethrow;
     }
   }
 
   // ...........................................................................
-  set status(GgTaskStatus status) => _updateState(status);
+  set status(GgStatusPrinterStatus status) => _updateState(status);
 
   // ...........................................................................
   /// The print callback used. Is print by default
@@ -46,14 +46,14 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// Log the result of the command
-  void _updateState(GgTaskStatus state) {
+  void _updateState(GgStatusPrinterStatus state) {
     // On GitHub we have no carriage return.
     // Thus we not logging the icon the first time
     var cr = useCarriageReturn ? carriageReturn : '';
 
     final msg = switch (state) {
-      GgTaskStatus.success => '$cr✅ $message',
-      GgTaskStatus.error => '$cr❌ $message',
+      GgStatusPrinterStatus.success => '$cr✅ $message',
+      GgStatusPrinterStatus.error => '$cr❌ $message',
       _ => '⌛️ $message',
     };
 
@@ -63,7 +63,7 @@ class GgStatusPrinter<T> {
 
 // #############################################################################
 /// The state of the log
-enum GgTaskStatus {
+enum GgStatusPrinterStatus {
   /// The command is running
   running,
 
