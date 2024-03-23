@@ -5,13 +5,14 @@
 // found in the LICENSE file in the root of this package.
 
 import 'package:gg_is_github/gg_is_github.dart';
+import 'package:gg_log/gg_log.dart';
 
 /// A printer for displaying status messages
 class GgStatusPrinter<T> {
   /// The constructor
   GgStatusPrinter({
     required this.message,
-    this.log = print,
+    this.ggLog = print,
     bool? useCarriageReturn,
   }) : useCarriageReturn = useCarriageReturn ?? !isGitHub;
 
@@ -55,7 +56,7 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// The print callback used. Is print by default
-  final void Function(String) log;
+  final GgLog ggLog;
 
   /// Replace messages using carriage return
   final bool useCarriageReturn;
@@ -80,7 +81,7 @@ class GgStatusPrinter<T> {
       _ => '⌛️ $message',
     };
 
-    log(msg);
+    ggLog(msg);
   }
 }
 

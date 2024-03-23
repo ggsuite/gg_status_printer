@@ -30,7 +30,7 @@ void main() {
               testIsGitHub = true; // No carriage return on GitHub
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
-                log: messages.add,
+                ggLog: messages.add,
                 useCarriageReturn: carriageReturn,
               );
 
@@ -52,7 +52,7 @@ void main() {
               testIsGitHub = false; // Carriage return on local machine
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
-                log: messages.add,
+                ggLog: messages.add,
                 useCarriageReturn: carriageReturn,
               );
 
@@ -70,7 +70,7 @@ void main() {
         test('error messages', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            log: messages.add,
+            ggLog: messages.add,
             useCarriageReturn: false,
           );
 
@@ -100,7 +100,7 @@ void main() {
       test('Should print the status', () {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
-          log: messages.add,
+          ggLog: messages.add,
           useCarriageReturn: false,
         );
 
@@ -127,7 +127,7 @@ void main() {
         test('should print success status', () async {
           final printer = GgStatusPrinter<bool>(
             message: 'Test Operation',
-            log: messages.add,
+            ggLog: messages.add,
             useCarriageReturn: false,
           );
 
@@ -150,7 +150,7 @@ void main() {
         test('should print fail status', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            log: messages.add,
+            ggLog: messages.add,
             useCarriageReturn: false,
           );
 
@@ -173,7 +173,7 @@ void main() {
         test('should print fail status', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            log: messages.add,
+            ggLog: messages.add,
             useCarriageReturn: false,
           );
 
