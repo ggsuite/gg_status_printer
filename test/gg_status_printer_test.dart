@@ -201,23 +201,21 @@ void main() {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
           ggLog: messages.add,
-          useCarriageReturn: false,
+          useCarriageReturn: true,
         );
 
+        const cr = GgStatusPrinter.carriageReturn;
+
         printer.logStatus(GgStatusPrinterStatus.running);
-        expect(messages, equals(['⌛️ Test Operation']));
+        expect(messages[0], '⌛️ Test Operation');
 
         printer.logStatus(GgStatusPrinterStatus.success);
-        expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
+        expect(messages[1], '$cr✅ Test Operation');
 
         printer.logStatus(GgStatusPrinterStatus.error);
         expect(
-          messages,
-          equals([
-            '⌛️ Test Operation',
-            '✅ Test Operation',
-            '❌ Test Operation',
-          ]),
+          messages[2],
+          '$cr❌ Test Operation',
         );
       });
     });
