@@ -18,6 +18,10 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// Run the operation and display the status
+  ///
+  /// - [task] to be executed.
+  ///   - If the task throws an exception, an error state will be printed.
+  ///   - If the task completes successfully, a success state will be printed.
   Future<T> run(Future<T> Function() task) async {
     try {
       _updateState(GgStatusPrinterStatus.running);
@@ -32,9 +36,15 @@ class GgStatusPrinter<T> {
 
   // ...........................................................................
   /// Run the operation and display the status.
+  ///
+  /// - [task] The task to be executed
+  /// - [success] A function that takes the result and decides if the task was
+  ///   successful.
+  ///   - If the function returns true, a success state will be printed.
+  ///   - If the function returns false, an error state will be printed.
   Future<T> logTask({
     required Future<T> Function() task,
-    required bool Function(T) success,
+    required bool Function(T result) success,
   }) async {
     try {
       _updateState(GgStatusPrinterStatus.running);
@@ -49,6 +59,12 @@ class GgStatusPrinter<T> {
       _updateState(GgStatusPrinterStatus.error);
       rethrow;
     }
+  }
+
+  // ...........................................................................
+  /// Just print a status
+  void logStatus(GgStatusPrinterStatus status) {
+    _updateState(status);
   }
 
   // ...........................................................................

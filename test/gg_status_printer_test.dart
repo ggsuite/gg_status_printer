@@ -195,5 +195,31 @@ void main() {
         });
       });
     });
+
+    group('logStatus()', () {
+      test('Should print the status', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: false,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.running);
+        expect(messages, equals(['⌛️ Test Operation']));
+
+        printer.logStatus(GgStatusPrinterStatus.success);
+        expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
+
+        printer.logStatus(GgStatusPrinterStatus.error);
+        expect(
+          messages,
+          equals([
+            '⌛️ Test Operation',
+            '✅ Test Operation',
+            '❌ Test Operation',
+          ]),
+        );
+      });
+    });
   });
 }
