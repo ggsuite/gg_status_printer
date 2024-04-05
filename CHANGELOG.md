@@ -1,13 +1,21 @@
-# Change Log
+# Changelog
 
-## 1.1.0
+## [Unreleased]
+
+### Changed
+
+- Rework changelog
+
+## 1.1.0 - 2024-01-01
 
 - Add `logStatus()` to log a status directly.
 
-## 1.0.8
+## 1.0.8 - 2024-01-01
 
 - Add `GgLog`
 
-## 1.0.7
+## 1.0.7 - 2024-01-01
 
 - Initial version.
+
+[Unreleased]: https://github.com/inlavigo/gg_status_printer/compare/1.1.0...HEAD
