@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Removed
+
+- 'Pipline: Disable cache'
+
 ## [1.1.1] - 2024-04-09
 
 ### Changed
@@ -20,4 +26,5 @@
 
 - Initial version.
 
+[Unreleased]: https://github.com/inlavigo/gg_status_printer/compare/1.1.1...HEAD
 [1.1.1]: https://github.com/inlavigo/gg_status_printer/compare/1.1.0...1.1.1
