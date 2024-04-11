@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.3] - 2024-04-11
+
+### Changed
+
+- upgrade dependencies
+
 ## [1.1.2] - 2024-04-09
 
 ### Removed
@@ -26,5 +32,6 @@
 
 - Initial version.
 
+[1.1.3]: https://github.com/inlavigo/gg_status_printer/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/inlavigo/gg_status_printer/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/inlavigo/gg_status_printer/compare/1.1.0...1.1.1
