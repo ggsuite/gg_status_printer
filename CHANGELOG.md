@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Removed
+
+- dependency to gg\_install\_gg, remove ./check script
+
 ## [1.1.3] - 2024-04-11
 
 ### Changed
@@ -32,6 +38,7 @@
 
 - Initial version.
 
+[Unreleased]: https://github.com/inlavigo/gg_status_printer/compare/1.1.3...HEAD
 [1.1.3]: https://github.com/inlavigo/gg_status_printer/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/inlavigo/gg_status_printer/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/inlavigo/gg_status_printer/compare/1.1.0...1.1.1
