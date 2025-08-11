@@ -32,8 +32,9 @@ void main() async {
       message: 'Loading data',
       useCarriageReturn: false,
     ).run(
-      () => Future<void>.delayed(const Duration(seconds: 1))
-          .then((_) => throw Exception('Failed')),
+      () => Future<void>.delayed(
+        const Duration(seconds: 1),
+      ).then((_) => throw Exception('Failed')),
     );
   } catch (_) {}
 }

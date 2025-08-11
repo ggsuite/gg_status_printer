@@ -38,10 +38,7 @@ void main() {
 
               expect(
                 messages,
-                equals([
-                  '⌛️ Test Operation',
-                  '✅ Test Operation',
-                ]),
+                equals(['⌛️ Test Operation', '✅ Test Operation']),
               );
               expect(result, equals('Success!'));
             });
@@ -85,13 +82,7 @@ void main() {
             ),
           );
 
-          expect(
-            messages,
-            equals([
-              '⌛️ Test Operation',
-              '❌ Test Operation',
-            ]),
-          );
+          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
         });
       });
     });
@@ -113,11 +104,7 @@ void main() {
         printer.status = GgStatusPrinterStatus.error;
         expect(
           messages,
-          equals([
-            '⌛️ Test Operation',
-            '✅ Test Operation',
-            '❌ Test Operation',
-          ]),
+          equals(['⌛️ Test Operation', '✅ Test Operation', '❌ Test Operation']),
         );
       });
     });
@@ -136,13 +123,7 @@ void main() {
             success: (value) => value,
           );
           expect(result, isTrue);
-          expect(
-            messages,
-            equals([
-              '⌛️ Test Operation',
-              '✅ Test Operation',
-            ]),
-          );
+          expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
         });
       });
 
@@ -159,13 +140,7 @@ void main() {
             success: (value) => value != 'error',
           );
           expect(result, 'error');
-          expect(
-            messages,
-            equals([
-              '⌛️ Test Operation',
-              '❌ Test Operation',
-            ]),
-          );
+          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
         });
       });
 
@@ -185,13 +160,7 @@ void main() {
             throwsA('error'),
           );
 
-          expect(
-            messages,
-            equals([
-              '⌛️ Test Operation',
-              '❌ Test Operation',
-            ]),
-          );
+          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
         });
       });
     });
@@ -213,10 +182,7 @@ void main() {
         expect(messages[1], '$cr✅ Test Operation');
 
         printer.logStatus(GgStatusPrinterStatus.error);
-        expect(
-          messages[2],
-          '$cr❌ Test Operation',
-        );
+        expect(messages[2], '$cr❌ Test Operation');
       });
     });
   });

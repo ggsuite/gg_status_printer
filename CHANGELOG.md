@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- Add .gitattributes file
+
 ## [1.1.4] - 2024-04-13
 
 ### Removed
@@ -39,6 +45,7 @@
 
 - Initial version.
 
+[Unreleased]: https://github.com/inlavigo/gg_status_printer/compare/1.1.4...HEAD
 [1.1.4]: https://github.com/inlavigo/gg_status_printer/compare/1.1.3...1.1.4
 [1.1.3]: https://github.com/inlavigo/gg_status_printer/compare/1.1.2...1.1.3
 [1.1.2]: https://github.com/inlavigo/gg_status_printer/compare/1.1.1...1.1.2
