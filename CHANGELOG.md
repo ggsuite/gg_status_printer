@@ -9,6 +9,7 @@
 ### Changed
 
 - kidney: changed references to path
+- kidney: changed references to git
 
 ## [1.1.4] - 2024-04-13
 
