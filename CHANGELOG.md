@@ -6,6 +6,10 @@
 
 - Add .gitattributes file
 
+### Changed
+
+- kidney: changed references to path
+
 ## [1.1.4] - 2024-04-13
 
 ### Removed
