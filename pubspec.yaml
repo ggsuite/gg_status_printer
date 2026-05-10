@@ -11,7 +11,9 @@ dependencies:
   args: ^2.4.2
   gg_is_github: ^1.0.0
   gg_log:
-    path: ../gg_log # ^1.0.0
+    git:
+      url: git@github.com:ggsuite/gg_log.git
+      ref: ticket-test
   path: ^1.8.0
 
 dev_dependencies:
