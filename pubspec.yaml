@@ -1,6 +1,7 @@
 name: gg_status_printer
 description: Prints progress, success, and error messages with Unicode icons for async operations.
 version: 1.1.5
+publish_to: none
 repository: https://github.com/inlavigo/gg_status_printer.git
 
 environment:
@@ -9,7 +10,8 @@ environment:
 dependencies:
   args: ^2.4.2
   gg_is_github: ^1.0.0
-  gg_log: ^1.0.0
+  gg_log:
+    path: ../gg_log # ^1.0.0
   path: ^1.8.0
 
 dev_dependencies:
