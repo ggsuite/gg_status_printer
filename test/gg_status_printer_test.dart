@@ -300,5 +300,14 @@ void main() {
         expect(messages[2], '$cr✗ Test Operation');
       });
     });
+
+    group('rmControls', () {
+      test('deletes carriage returns from strings', () {
+        expect(
+          rmControls(red('\x1B[1A\x1B[2K✗ Running "dart test"')),
+          '✗ Running "dart test"',
+        );
+      });
+    });
   });
 }
