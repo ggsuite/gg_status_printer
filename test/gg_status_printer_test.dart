@@ -231,6 +231,55 @@ void main() {
       });
     });
 
+    group('dark', () {
+      test('dims the message, the mark keeps its semantic color', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: false,
+          dark: true,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.running);
+        printer.logStatus(GgStatusPrinterStatus.success);
+        printer.logStatus(GgStatusPrinterStatus.error);
+
+        expect(
+          messages,
+          equals([
+            '⌛️ ${darkGray('Test Operation')}',
+            '${cSuccess('✓')} ${darkGray('Test Operation')}',
+            '${cError('✗')} ${darkGray('Test Operation')}',
+          ]),
+        );
+
+        // Without the colors it is the plain status line.
+        expect(
+          messages.map(rmC).toList(),
+          equals(['⌛️ Test Operation', '✓ Test Operation', '✗ Test Operation']),
+        );
+      });
+
+      test('is ignored when colorize is false', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: false,
+          colorize: false,
+          dark: true,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.running);
+        printer.logStatus(GgStatusPrinterStatus.success);
+        printer.logStatus(GgStatusPrinterStatus.error);
+
+        expect(
+          messages,
+          equals(['⌛️ Test Operation', '✓ Test Operation', '✗ Test Operation']),
+        );
+      });
+    });
+
     group('logStatus()', () {
       test('Should print the status', () {
         final printer = GgStatusPrinter<String>(

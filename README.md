@@ -16,6 +16,7 @@ This package streamlines the process of providing real-time, user-friendly feedb
 - **Success Notification**: On successful completion of the asynchronous operation, it prints the original message prefixed with "✓".
 - **Error Notification**: In case of failure, it prints the original message prefixed with "✗".
 - **Colored by Default**: Only the mark is colored — "✓" via `cSuccess`, "✗" via `cError`. The message stays neutral, so it does not compete with the lines the user actually has to read. Pass `colorize: false` when the caller renders the mark itself.
+- **Dimmed Message**: Pass `dark: true` to print the message in `darkGray` while the mark keeps its semantic color. Ignored when `colorize` is false.
 - **Customizable Messages**: Allows customization of the initial, success, and error messages to fit the needs of different applications.
 - **Easy Integration**: Designed to be easily integrated into existing Dart projects with minimal configuration.
 
