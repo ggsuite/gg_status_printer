@@ -4,12 +4,16 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_console_colors/gg_console_colors.dart';
 import 'package:gg_is_github/gg_is_github.dart';
 import 'package:gg_status_printer/gg_status_printer.dart';
 import 'package:test/test.dart';
 
 void main() {
   final messages = <String>[];
+
+  /// Collects the output with its colors removed.
+  void log(String msg) => messages.add(rmC(msg));
 
   setUp(() {
     messages.clear();
@@ -30,7 +34,7 @@ void main() {
               testIsGitHub = true; // No carriage return on GitHub
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
-                ggLog: messages.add,
+                ggLog: log,
                 useCarriageReturn: carriageReturn,
               );
 
@@ -38,7 +42,7 @@ void main() {
 
               expect(
                 messages,
-                equals(['⌛️ Test Operation', '✅ Test Operation']),
+                equals(['⌛️ Test Operation', '✓ Test Operation']),
               );
               expect(result, equals('Success!'));
             });
@@ -49,7 +53,7 @@ void main() {
               testIsGitHub = false; // Carriage return on local machine
               final printer = GgStatusPrinter<String>(
                 message: 'Test Operation',
-                ggLog: messages.add,
+                ggLog: log,
                 useCarriageReturn: carriageReturn,
               );
 
@@ -67,7 +71,7 @@ void main() {
         test('error messages', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            ggLog: messages.add,
+            ggLog: log,
             useCarriageReturn: false,
           );
 
@@ -82,7 +86,7 @@ void main() {
             ),
           );
 
-          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
+          expect(messages, equals(['⌛️ Test Operation', '✗ Test Operation']));
         });
       });
     });
@@ -91,7 +95,7 @@ void main() {
       test('Should print the status', () {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
-          ggLog: messages.add,
+          ggLog: log,
           useCarriageReturn: false,
         );
 
@@ -99,12 +103,12 @@ void main() {
         expect(messages, equals(['⌛️ Test Operation']));
 
         printer.status = GgStatusPrinterStatus.success;
-        expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
+        expect(messages, equals(['⌛️ Test Operation', '✓ Test Operation']));
 
         printer.status = GgStatusPrinterStatus.error;
         expect(
           messages,
-          equals(['⌛️ Test Operation', '✅ Test Operation', '❌ Test Operation']),
+          equals(['⌛️ Test Operation', '✓ Test Operation', '✗ Test Operation']),
         );
       });
     });
@@ -114,7 +118,7 @@ void main() {
         test('should print success status', () async {
           final printer = GgStatusPrinter<bool>(
             message: 'Test Operation',
-            ggLog: messages.add,
+            ggLog: log,
             useCarriageReturn: false,
           );
 
@@ -123,7 +127,7 @@ void main() {
             success: (value) => value,
           );
           expect(result, isTrue);
-          expect(messages, equals(['⌛️ Test Operation', '✅ Test Operation']));
+          expect(messages, equals(['⌛️ Test Operation', '✓ Test Operation']));
         });
       });
 
@@ -131,7 +135,7 @@ void main() {
         test('should print fail status', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            ggLog: messages.add,
+            ggLog: log,
             useCarriageReturn: false,
           );
 
@@ -140,7 +144,7 @@ void main() {
             success: (value) => value != 'error',
           );
           expect(result, 'error');
-          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
+          expect(messages, equals(['⌛️ Test Operation', '✗ Test Operation']));
         });
       });
 
@@ -148,7 +152,7 @@ void main() {
         test('should print fail status', () async {
           final printer = GgStatusPrinter<String>(
             message: 'Test Operation',
-            ggLog: messages.add,
+            ggLog: log,
             useCarriageReturn: false,
           );
 
@@ -160,8 +164,70 @@ void main() {
             throwsA('error'),
           );
 
-          expect(messages, equals(['⌛️ Test Operation', '❌ Test Operation']));
+          expect(messages, equals(['⌛️ Test Operation', '✗ Test Operation']));
         });
+      });
+    });
+
+    group('colorize', () {
+      test('wraps the mark in its semantic color, the message stays plain', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: false,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.running);
+        printer.logStatus(GgStatusPrinterStatus.success);
+        printer.logStatus(GgStatusPrinterStatus.error);
+
+        expect(
+          messages,
+          equals([
+            '⌛️ Test Operation',
+            '${cSuccess('✓')} Test Operation',
+            '${cError('✗')} Test Operation',
+          ]),
+        );
+
+        // Without the colors it is the plain status line.
+        expect(
+          messages.map(rmC).toList(),
+          equals(['⌛️ Test Operation', '✓ Test Operation', '✗ Test Operation']),
+        );
+      });
+
+      test('keeps the carriage return outside the color', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: true,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.success);
+
+        expect(
+          messages.single,
+          '${GgStatusPrinter.carriageReturn}${cSuccess('✓')} Test Operation',
+        );
+      });
+
+      test('emits no color when colorize is false', () {
+        final printer = GgStatusPrinter<String>(
+          message: 'Test Operation',
+          ggLog: messages.add,
+          useCarriageReturn: false,
+          colorize: false,
+        );
+
+        printer.logStatus(GgStatusPrinterStatus.running);
+        printer.logStatus(GgStatusPrinterStatus.success);
+        printer.logStatus(GgStatusPrinterStatus.error);
+
+        expect(
+          messages,
+          equals(['⌛️ Test Operation', '✓ Test Operation', '✗ Test Operation']),
+        );
       });
     });
 
@@ -169,7 +235,7 @@ void main() {
       test('Should print the status', () {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
-          ggLog: messages.add,
+          ggLog: log,
           useCarriageReturn: true,
         );
 
@@ -179,10 +245,10 @@ void main() {
         expect(messages[0], '⌛️ Test Operation');
 
         printer.logStatus(GgStatusPrinterStatus.success);
-        expect(messages[1], '$cr✅ Test Operation');
+        expect(messages[1], '$cr✓ Test Operation');
 
         printer.logStatus(GgStatusPrinterStatus.error);
-        expect(messages[2], '$cr❌ Test Operation');
+        expect(messages[2], '$cr✗ Test Operation');
       });
     });
   });
