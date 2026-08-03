@@ -9,4 +9,4 @@
 // coverage:ignore-file
 
 /// The version of the `gg_status_printer` package.
-const String ggStatusPrinterVersion = '1.4.1';
+const String ggStatusPrinterVersion = '1.4.2';
