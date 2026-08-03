@@ -232,7 +232,7 @@ void main() {
     });
 
     group('dark', () {
-      test('dims the message, the mark keeps its semantic color', () {
+      test('dims the message and leaves the mark uncolored', () {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
           ggLog: messages.add,
@@ -248,8 +248,8 @@ void main() {
           messages,
           equals([
             '⌛️ ${darkGray('Test Operation')}',
-            '${cSuccess('✓')} ${darkGray('Test Operation')}',
-            '${cError('✗')} ${darkGray('Test Operation')}',
+            '✓ ${darkGray('Test Operation')}',
+            '✗ ${darkGray('Test Operation')}',
           ]),
         );
 

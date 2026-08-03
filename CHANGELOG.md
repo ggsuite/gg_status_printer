@@ -1,18 +1,24 @@
 # Changelog
 
+## 1.4.0 - 2026-08-03
+
+### Changed
+
+- Don't colorize marker on dark mode
+
 ## 1.3.0 - 2026-08-03
 
 ### Added
 
 - Add dark param to gg console colors
+- Add a `dark` param printing the message in `darkGray` and the status mark
+without its semantic color. It is ignored when `colorize` is false
 
 ## 1.2.0 - 2026-08-03
 
 ### Added
 
 - Add .gitattributes file
-- Add a `dark` param printing the message in `darkGray`. It is ignored when
-`colorize` is false
 
 ### Changed
 
