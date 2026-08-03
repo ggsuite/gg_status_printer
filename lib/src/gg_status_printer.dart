@@ -139,6 +139,13 @@ class GgStatusPrinter<T> {
   String _text(String text) => colorize && dark ? darkGray(text) : text;
 }
 
+/// Deletes the carriage and colors return from strings
+String rmControls(String str) {
+  var result = str.replaceAll(GgStatusPrinter.carriageReturn, '');
+  result = rmConsoleColors(result);
+  return result;
+}
+
 // #############################################################################
 /// The state of the log
 enum GgStatusPrinterStatus {
