@@ -232,7 +232,7 @@ void main() {
     });
 
     group('dark', () {
-      test('dims the message and leaves the mark uncolored', () {
+      test('dims the message and the mark', () {
         final printer = GgStatusPrinter<String>(
           message: 'Test Operation',
           ggLog: messages.add,
@@ -248,8 +248,8 @@ void main() {
           messages,
           equals([
             '⌛️ ${darkGray('Test Operation')}',
-            '✓ ${darkGray('Test Operation')}',
-            '✗ ${darkGray('Test Operation')}',
+            '${darkGray('✓')} ${darkGray('Test Operation')}',
+            '${darkGray('✗')} ${darkGray('Test Operation')}',
           ]),
         );
 
