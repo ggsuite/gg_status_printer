@@ -1,10 +1,16 @@
 # Changelog
 
+## 1.4.1 - 2026-08-03
+
+### Changed
+
+- Marker should also be dark when dark
+
 ## 1.4.0 - 2026-08-03
 
 ### Changed
 
-- Don't colorize marker on dark mode
+- Don't colorize marker on dark mode. Dim it with `darkGray` instead
 
 ## 1.3.0 - 2026-08-03
 

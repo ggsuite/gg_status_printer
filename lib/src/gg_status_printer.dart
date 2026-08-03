@@ -89,8 +89,8 @@ class GgStatusPrinter<T> {
 
   /// Whether the default text is dimmed using [darkGray].
   ///
-  /// The status mark is printed without its semantic color then. Ignored when
-  /// [colorize] is false.
+  /// The status mark is dimmed as well instead of carrying its semantic
+  /// color. Ignored when [colorize] is false.
   final bool dark;
 
   /// The message to be displayed
@@ -119,16 +119,17 @@ class GgStatusPrinter<T> {
   }
 
   // ...........................................................................
-  /// Returns [mark] wrapped in [color], or plain when [colorize] is false or
-  /// [dark] is set.
+  /// Returns [mark] wrapped in [color], dimmed when [dark] is set, or plain
+  /// when [colorize] is false.
   ///
   /// Only the mark is colored — the message stays neutral so it does not
   /// compete with the lines the user actually has to read, and the caller
   /// stays free to color it. The carriage return sequence is added outside,
   /// so the escape codes never wrap the cursor movement. A dark line is meant
-  /// to recede as a whole, so the semantic color is dropped there.
+  /// to recede as a whole, so the mark is dimmed together with the message
+  /// instead of carrying its semantic color.
   String _mark(String Function(Object) color, String mark) =>
-      colorize && !dark ? color(mark) : mark;
+      colorize ? (dark ? darkGray(mark) : color(mark)) : mark;
 
   // ...........................................................................
   /// Returns [text] dimmed when [dark] is set, or plain otherwise.
