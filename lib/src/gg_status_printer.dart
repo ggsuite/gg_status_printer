@@ -16,6 +16,7 @@ class GgStatusPrinter<T> {
     this.ggLog = print,
     bool? useCarriageReturn,
     this.colorize = true,
+    this.dark = false,
   }) : useCarriageReturn = useCarriageReturn ?? !isGitHub;
 
   // ...........................................................................
@@ -86,6 +87,12 @@ class GgStatusPrinter<T> {
   /// own.
   final bool colorize;
 
+  /// Whether the default text is dimmed using [darkGray].
+  ///
+  /// The status mark keeps its semantic color. Ignored when [colorize] is
+  /// false.
+  final bool dark;
+
   /// The message to be displayed
   final String message;
 
@@ -101,9 +108,11 @@ class GgStatusPrinter<T> {
     var cr = useCarriageReturn ? carriageReturn : '';
 
     final msg = switch (state) {
-      GgStatusPrinterStatus.success => '$cr${_mark(cSuccess, '✓')} $message',
-      GgStatusPrinterStatus.error => '$cr${_mark(cError, '✗')} $message',
-      _ => '⌛️ $message',
+      GgStatusPrinterStatus.success =>
+        '$cr${_mark(cSuccess, '✓')} ${_text(message)}',
+      GgStatusPrinterStatus.error =>
+        '$cr${_mark(cError, '✗')} ${_text(message)}',
+      _ => '⌛️ ${_text(message)}',
     };
 
     ggLog(msg);
@@ -118,6 +127,13 @@ class GgStatusPrinter<T> {
   /// so the escape codes never wrap the cursor movement.
   String _mark(String Function(Object) color, String mark) =>
       colorize ? color(mark) : mark;
+
+  // ...........................................................................
+  /// Returns [text] dimmed when [dark] is set, or plain otherwise.
+  ///
+  /// [dark] is ignored when [colorize] is false, i.e. a caller that opted out
+  /// of colors never gets escape sequences.
+  String _text(String text) => colorize && dark ? darkGray(text) : text;
 }
 
 // #############################################################################
