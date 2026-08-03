@@ -4,6 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import 'package:gg_console_colors/gg_console_colors.dart';
 import 'package:gg_is_github/gg_is_github.dart';
 import 'package:gg_log/gg_log.dart';
 
@@ -14,6 +15,7 @@ class GgStatusPrinter<T> {
     required this.message,
     this.ggLog = print,
     bool? useCarriageReturn,
+    this.colorize = true,
   }) : useCarriageReturn = useCarriageReturn ?? !isGitHub;
 
   // ...........................................................................
@@ -77,6 +79,13 @@ class GgStatusPrinter<T> {
   /// Replace messages using carriage return
   final bool useCarriageReturn;
 
+  /// Whether the status mark carries its semantic color.
+  ///
+  /// `✓` is wrapped in [cSuccess], `✗` in [cError]. The message itself stays
+  /// neutral either way. Set to false when the caller renders the mark on its
+  /// own.
+  final bool colorize;
+
   /// The message to be displayed
   final String message;
 
@@ -92,13 +101,23 @@ class GgStatusPrinter<T> {
     var cr = useCarriageReturn ? carriageReturn : '';
 
     final msg = switch (state) {
-      GgStatusPrinterStatus.success => '$cr✅ $message',
-      GgStatusPrinterStatus.error => '$cr❌ $message',
+      GgStatusPrinterStatus.success => '$cr${_mark(cSuccess, '✓')} $message',
+      GgStatusPrinterStatus.error => '$cr${_mark(cError, '✗')} $message',
       _ => '⌛️ $message',
     };
 
     ggLog(msg);
   }
+
+  // ...........................................................................
+  /// Returns [mark] wrapped in [color], or plain when [colorize] is false.
+  ///
+  /// Only the mark is colored — the message stays neutral so it does not
+  /// compete with the lines the user actually has to read, and the caller
+  /// stays free to color it. The carriage return sequence is added outside,
+  /// so the escape codes never wrap the cursor movement.
+  String _mark(String Function(Object) color, String mark) =>
+      colorize ? color(mark) : mark;
 }
 
 // #############################################################################

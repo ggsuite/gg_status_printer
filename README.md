@@ -6,15 +6,16 @@
 
 Upon initiating an asynchronous operation, it's often beneficial to provide immediate feedback to the user, indicating that the process has begun. `GgStatusPrinter` tackles this by automatically displaying a temporary message prefixed with a "⌛️" (hourglass) emoji, signifying that the operation is in progress.
 
-Once the operation completes, the package updates the feedback based on the outcome of the operation. If the operation succeeds, it displays a message prefixed with "✅" (check mark), indicating success. Conversely, if the operation encounters an error or fails, the package shows a message prefixed with "❌" (cross mark), signaling failure.
+Once the operation completes, the package updates the feedback based on the outcome of the operation. If the operation succeeds, it displays a message prefixed with "✓" (check mark), indicating success. Conversely, if the operation encounters an error or fails, the package shows a message prefixed with "✗" (ballot x), signaling failure.
 
 This package streamlines the process of providing real-time, user-friendly feedback for asynchronous operations, enhancing the overall user experience by keeping users informed about the status of background tasks.
 
 ## Features
 
 - **Automatic Feedback on Start**: Automatically prints a message with "⌛️" to indicate the beginning of an operation.
-- **Success Notification**: On successful completion of the asynchronous operation, it prints the original message prefixed with "✅".
-- **Error Notification**: In case of failure, it prints the original message prefixed with "❌".
+- **Success Notification**: On successful completion of the asynchronous operation, it prints the original message prefixed with "✓".
+- **Error Notification**: In case of failure, it prints the original message prefixed with "✗".
+- **Colored by Default**: Only the mark is colored — "✓" via `cSuccess`, "✗" via `cError`. The message stays neutral, so it does not compete with the lines the user actually has to read. Pass `colorize: false` when the caller renders the mark itself.
 - **Customizable Messages**: Allows customization of the initial, success, and error messages to fit the needs of different applications.
 - **Easy Integration**: Designed to be easily integrated into existing Dart projects with minimal configuration.
 
@@ -31,7 +32,7 @@ import 'package:gg_status_printer/gg_status_printer.dart';
 
 void main() async {
   print('\nPrint all states one the same line');
-  // ⌛️✅ Loading data
+  // ⌛️✓ Loading data
   await const GgStatusPrinter<void>(
     message: 'Loading data',
     useCarriageReturn: true,
@@ -39,7 +40,7 @@ void main() async {
 
   print('\nPrint all states on different lines');
   // ⌛️ Loading data
-  // ✅ Loading data
+  // ✓ Loading data
   await const GgStatusPrinter<void>(
     message: 'Loading data',
     useCarriageReturn: false,
@@ -47,7 +48,7 @@ void main() async {
 
   print('\nPrint fail states');
   // ⌛️ Loading data
-  // ❌ Loading data
+  // ✗ Loading data
 
   try {
     await const GgStatusPrinter<void>(
