@@ -100,19 +100,17 @@ packages:
   gg_console_colors:
     dependency: "direct main"
     description:
-      name: gg_console_colors
-      sha256: "937a99228fb60796f53b24dcbe580cbc17ef0c1ceed6877df58a881d3d8d930b"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../gg_console_colors"
+      relative: true
+    source: path
     version: "2.3.0"
   gg_is_github:
     dependency: "direct main"
     description:
-      name: gg_is_github
-      sha256: b980cd4e3e6354e9b0a81b676f2b2b2d91ceeeea562bc35f1b9595fded40e0d8
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
+      path: "../gg_is_github"
+      relative: true
+    source: path
+    version: "1.0.7"
   gg_log:
     dependency: "direct main"
     description:

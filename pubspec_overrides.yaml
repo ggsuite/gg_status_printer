@@ -4,5 +4,9 @@
 # change-refs-to-git-feature-branch and change-refs-to-pub-dev
 # remove it again.
 dependency_overrides:
+  gg_console_colors:
+    path: ../gg_console_colors
+  gg_is_github:
+    path: ../gg_is_github
   gg_log:
     path: ../gg_log
