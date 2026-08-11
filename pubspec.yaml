@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   args: ^2.7.0
-  gg_console_colors: ^2.3.0
+  gg_console_colors: ^2.3.1
   gg_is_github: ^1.0.7
   gg_log: ^1.0.7
   path: ^1.9.1
