@@ -8,9 +8,9 @@ environment:
 
 dependencies:
   args: ^2.7.0
-  gg_console_colors: ^2.3.1
-  gg_is_github: ^1.0.7
-  gg_log: ^1.0.7
+  gg_console_colors: ^2.4.0
+  gg_is_github: ^1.1.0
+  gg_log: ^1.1.0
   path: ^1.9.1
 
 dev_dependencies:
