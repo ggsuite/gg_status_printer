@@ -1,6 +1,7 @@
 #!/usr/bin/env dart
+
 // @license
-// Copyright (c) 2019 - 2024 Dr. Gabriel Gatzsche. All Rights Reserved.
+// Copyright (c) ggsuite
 //
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
@@ -32,9 +33,9 @@ void main() async {
       message: 'Loading data',
       useCarriageReturn: false,
     ).run(
-      () => Future<void>.delayed(
-        const Duration(seconds: 1),
-      ).then((_) => throw Exception('Failed')),
+      () =>
+          Future<void>.delayed(const Duration(seconds: 1))
+              .then((_) => throw Exception('Failed')),
     );
   } catch (_) {}
 }
