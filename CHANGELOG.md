@@ -5,6 +5,7 @@
 ### Changed
 
 - Use ggwsm in pipelines
+- Never use /tmp as test dir base on Windows - Dart and git resolve it to different paths
 
 ## 1.5.0 - 2026-08-13
 
