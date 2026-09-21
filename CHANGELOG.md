@@ -4,7 +4,8 @@
 
 ### Changed
 
-- &quot;Quiet
+- "Quiet
+- &quot;Tighten
 
 ## 1.6.0 - 2026-09-02
 
